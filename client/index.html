@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<style>
+  body {
+    padding: 0px 300px;
+    background-color: lightgray;
+    text-align: center;
+    font-family: sans-serif;
+    direction: rtl;
+  }
+
+  .sendFilesButton {
+    background-color: black;
+    color: lightgray;
+    padding: 20px;
+    border-radius: 20px;
+    width: 120px;
+    font-size: 25px;
+    border: white 1px solid;
+    margin: auto;
+    cursor: pointer;
+  }
+
+  .fileUpload {
+    border: red 1px solid;
+    padding: 4px
+  }
+
+  .sendFilesButton:hover {
+    background-color: lightgray;
+    color: black;
+  }
+
+  #text-feedback {
+    direction: rtl;
+  }
+
+  .file_upload_sector {
+    padding: 40px;
+    border: 3px solid black;
+    display: inline-block;
+  }
+
+  ul {
+    display: table;
+    margin: 22px auto;
+  }
+
+  #status_button {
+    padding: 5px;
+    background-color: grey;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+</style>
+
+<script>
+  let current_file = null;
+
+  function sendServerStatusCheck() {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:5555/status_check", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        if (result == 'Status OK') {
+          document.getElementById('status_button').style.backgroundColor = 'lightgreen'
+          document.getElementById('status_button').innerHTML = 'נבדק ותקין'
+        } else {
+          document.getElementById('status_button').style.backgroundColor = 'orangered'
+          document.getElementById('status_button').innerHTML = result
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+
+  function sendFiles(file) {
+    try {
+      var formdata = new FormData();
+      formdata.append('map_file', file, file.name);
+      var requestOptions = {
+        method: 'POST',
+        body: formdata,
+      };
+      fetch("http://localhost:5555/upload-file", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          document.getElementById('text-feedback').innerHTML = 'הקובץ הועלה בהצלחה :)'
+        })
+        .catch(error => console.log('error', error));
+    } catch {
+      alert("File is not uploaded")
+    }
+  }
+
+  function handleFileChange() {
+    const files = document.getElementById('current_file').files;
+    document.getElementById('current_file').style.borderColor = 'lightgreen'
+    current_file = files[0]
+  }
+</script>
+
+<body>
+  <h1>העלאת קבצים - פרוייקט מכשילים</h1>
+  <ul>
+    <li>יש לבחור קובץ תמונה רלוונטית</li>
+    <li>יש להעלות את הקובץ לפי הפורמט שם - file.py</li>
+    <li>יש לבחור "שלח קובץ"</li>
+  </ul>
+  <div class="file_upload_sector">
+    <input type="file" id="current_file" class="fileUpload" onchange="handleFileChange()" name="myfile"><br><br>
+    <div class="sendFilesButton" onclick="sendFiles(current_file)">שלח קובץ</div>
+    <p id="text-feedback"></p>
+  </div>
+  <br><br>
+  <div class="file_upload_sector">
+    <p>הרצת בדיקה של סטטוס השרת</p>
+    <div id="status_button">לא נבדק</div>
+    <div class="sendFilesButton" onclick="sendServerStatusCheck()">הרץ בדיקה</div>
+  </div>
+</body>
+
+</html>
