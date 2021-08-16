@@ -4,6 +4,7 @@ const path = require('path');
 let cors = require('cors')
 const fileUpload = require('express-fileupload');
 const execF = require('child_process').execFile;
+const fs = require('fs')
 
 const HOST_NAME = 'localhost'
 const GET_ROUTE = '/status_check'
@@ -59,10 +60,7 @@ app.get(GET_ROUTE, (req, res) => {
 app.post(POST_ROUTE, async (req, res) => {
   const current_file = req.files.map_file
   const selected_region = req.body.region
-  console.log(selected_region)
-  console.log(selected_region)
-  console.log(selected_region)
-  console.log(selected_region)
+  console.log(`Region selected is - ${selected_region}`)
   console.log(`Uploading file ${current_file.name}`)
   if (current_file.name.includes('png')) {
     current_file.mv('./' + 'Secret.png');
@@ -70,10 +68,32 @@ app.post(POST_ROUTE, async (req, res) => {
     return res.send('File is not PNG valid')
   }
   console.log("Trying to encode")
-  execF('EncryptionDir/Encode.exe', ['Secret.png'], function (err, data) {
-    if (err)
+  execF('Encode.exe', ['Secret.png'], async (err, data) => {
+    if (err) {
+      console.log("Encryption error - " + err)
       return res.send("ERROR - " + err)
-    console.log(data.toString());
+    }
+    if (data.toString() == '') {
+      console.log("Encryption Success!!!");
+      fs.rename('./first.png', './EncryptionDir/working/first.png', (err) => {
+        if (err) return res.send("Could not move encrypted first.png")
+      });
+      fs.rename('./second.png', './EncryptionDir/working/secong.png', (err) => {
+        if (err) return res.send("Could not move encrypted second.png")
+      });
+      console.log("Files crop Success!");
+      console.log("Zipping...");
+
+      const zipdir = require('zip-dir');
+      const buffer = await zipdir('./EncryptionDir/working');
+      zipdir('./EncryptionDir/working',
+        { saveTo: `./EncryptionDir/working/SecretCrazyRoom${selected_region}.zip` },
+        function (err, buffer) {
+          console.log('Zipping success!')
+        });
+
+    }
+    else console.log(data.toString())
   });
   // Run python script
   res.send('Status OK')
