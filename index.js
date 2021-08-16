@@ -90,13 +90,15 @@ app.post(POST_ROUTE, async (req, res) => {
         { saveTo: `./EncryptionDir/working/SecretCrazyRoom${selected_region}.zip` },
         function (err, buffer) {
           console.log('Zipping success!')
+          return res.send('Status OK')
         });
+    } else {
+      return res.send('Encryption failed!')
 
     }
-    else console.log(data.toString())
   });
   // Run python script
-  res.send('Status OK')
+
 });
 
 app.listen(PORT, () => {

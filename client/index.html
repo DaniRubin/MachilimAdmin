@@ -34,6 +34,12 @@
 
   #text-feedback {
     direction: rtl;
+    padding: 5px;
+    background-color: lightgreen;
+    margin-top: 100px;
+    border-radius: 15px;
+    border: white 1px solid;
+    display: none;
   }
 
   .file_upload_sector {
@@ -89,6 +95,8 @@
     if (document.getElementById('north').checked) selected_region = 'North'
     if (document.getElementById('center').checked) selected_region = 'Center'
     if (document.getElementById('south').checked) selected_region = 'South'
+    document.getElementById('text-feedback').innerHTML = ''
+    document.getElementById('text-feedback').style.backgroundColor = 'grey'
 
     try {
       var formdata = new FormData();
@@ -101,8 +109,15 @@
       fetch("http://localhost:5555/upload-file", requestOptions)
         .then(response => response.text())
         .then(result => {
-          if (result == 'Status OK') document.getElementById('text-feedback').innerHTML = 'הקובץ הועלה בהצלחה :)'
-          else document.getElementById('text-feedback').innerHTML = result;
+          document.getElementById('text-feedback').style.display = "block";
+          if (result == 'Status OK') {
+            document.getElementById('text-feedback').style.backgroundColor = 'lightgreen'
+            document.getElementById('text-feedback').innerHTML = 'הקובץ הועלה בהצלחה :)'
+          }
+          else {
+            document.getElementById('text-feedback').style.backgroundColor = 'orangered'
+            document.getElementById('text-feedback').innerHTML = result;
+          }
         })
         .catch(error => console.log('error', error));
     } catch {
@@ -121,8 +136,10 @@
   <h1>העלאת קבצים - פרוייקט מכשילים</h1>
   <ul>
     <li>יש לבחור קובץ תמונה רלוונטית</li>
-    <li>יש להעלות את הקובץ לפי הפורמט שם - file.py</li>
-    <li>יש לבחור "שלח קובץ"</li>
+    <li>יש להעלות את הקובץ בפורט PNG</li>
+    <li>יש לבחור אזור שהתמונה רלוונטית אליו</li>
+    <li>יש לבחור שלח קובץ</li>
+    <li>התשובה שנצפה אליה היא "הקובץ הועלה בהצלחה :)"</li>
   </ul>
   <div class="file_upload_sector">
     <input type="file" id="current_file" class="fileUpload" onchange="handleFileChange()" name="myfile"><br><br>
