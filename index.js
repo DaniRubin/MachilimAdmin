@@ -8,7 +8,7 @@ const fs = require('fs')
 
 const HOST_NAME = 'localhost'
 const GET_ROUTE = '/status_check'
-const POST_ROUTE = '/upload-file'
+const POST_ROUTE = '/upload_file'
 const PORT = 5555
 
 const app = express()
@@ -31,7 +31,6 @@ const get_file_commend = [`Running tasks getfile\r`, 'Could not getfile command!
 const receiving_valid_command = [`receiving...\r`, 'Could not receive valid response! NOT VALID']
 const search_quesrirs = [connection_success, login_success, dir_success, read_text_commend, get_file_commend, receiving_valid_command]
 
-let checking_counter = 0
 app.get(GET_ROUTE, (req, res) => {
   const { spawn } = require('child_process');
 
