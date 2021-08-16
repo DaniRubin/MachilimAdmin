@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 let cors = require('cors')
 const fileUpload = require('express-fileupload');
-const { query } = require('express');
+const execF = require('child_process').execFile;
 
 const HOST_NAME = 'localhost'
 const GET_ROUTE = '/status_check'
@@ -32,9 +32,10 @@ const search_quesrirs = [connection_success, login_success, dir_success, read_te
 
 let checking_counter = 0
 app.get(GET_ROUTE, (req, res) => {
+  const { spawn } = require('child_process');
+
   try {
     console.log(`Asked for server status check!`);
-    const { spawn } = require('child_process');
     const pyProg = spawn('python3', ['./scripts/checkServerStatus.py']);
     pyProg.stdout.on('data', function (data) {
       const response_lines = data.toString().split('\n')
@@ -57,12 +58,25 @@ app.get(GET_ROUTE, (req, res) => {
 
 app.post(POST_ROUTE, async (req, res) => {
   const current_file = req.files.map_file
-  console.log(`Uploading file ${req.files.map_file.name}`)
-  if (current_file) {
-    current_file.mv('./uploads/' + current_file.name);
+  const selected_region = req.body.region
+  console.log(selected_region)
+  console.log(selected_region)
+  console.log(selected_region)
+  console.log(selected_region)
+  console.log(`Uploading file ${current_file.name}`)
+  if (current_file.name.includes('png')) {
+    current_file.mv('./' + 'Secret.png');
+  } else {
+    return res.send('File is not PNG valid')
   }
+  console.log("Trying to encode")
+  execF('EncryptionDir/Encode.exe', ['Secret.png'], function (err, data) {
+    if (err)
+      return res.send("ERROR - " + err)
+    console.log(data.toString());
+  });
   // Run python script
-  res.sendStatus(200)
+  res.send('Status OK')
 });
 
 app.listen(PORT, () => {

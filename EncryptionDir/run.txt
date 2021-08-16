@@ -1,0 +1,3 @@
+1. Encode.exe Secret.png
+2. Zip first.png second.png site.txt to SecretCrazyRoom[North\South\Center].zip
+3. save at dir 

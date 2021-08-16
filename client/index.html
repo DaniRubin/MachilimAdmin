@@ -17,8 +17,9 @@
     width: 120px;
     font-size: 25px;
     border: white 1px solid;
-    margin: auto;
     cursor: pointer;
+    float: right;
+    margin-right: 25px;
   }
 
   .fileUpload {
@@ -52,6 +53,11 @@
     margin-bottom: 10px;
     border-radius: 5px;
   }
+
+  #radio_buttons {
+    float: right;
+    text-align: right;
+  }
 </style>
 
 <script>
@@ -79,9 +85,15 @@
 
 
   function sendFiles(file) {
+    let selected_region = ''
+    if (document.getElementById('north').checked) selected_region = 'north'
+    if (document.getElementById('center').checked) selected_region = 'center'
+    if (document.getElementById('south').checked) selected_region = 'south'
+
     try {
       var formdata = new FormData();
       formdata.append('map_file', file, file.name);
+      formdata.append('region', selected_region);
       var requestOptions = {
         method: 'POST',
         body: formdata,
@@ -89,7 +101,8 @@
       fetch("http://localhost:5555/upload-file", requestOptions)
         .then(response => response.text())
         .then(result => {
-          document.getElementById('text-feedback').innerHTML = 'הקובץ הועלה בהצלחה :)'
+          if (result == 'Status OK') document.getElementById('text-feedback').innerHTML = 'הקובץ הועלה בהצלחה :)'
+          else document.getElementById('text-feedback').innerHTML = result;
         })
         .catch(error => console.log('error', error));
     } catch {
@@ -113,9 +126,23 @@
   </ul>
   <div class="file_upload_sector">
     <input type="file" id="current_file" class="fileUpload" onchange="handleFileChange()" name="myfile"><br><br>
+
+    <div id="radio_buttons">
+        <input type="radio" id="north" name="radio_buttons" checked>
+        <label for="north">צפון</label><br>
+        <input type="radio" id="center" name="radio_buttons">
+        <label for="css">מרכז</label><br>
+        <input type="radio" id="south" name="radio_buttons">
+        <label for="south">דרום</label>
+    </div>
+
     <div class="sendFilesButton" onclick="sendFiles(current_file)">שלח קובץ</div>
     <p id="text-feedback"></p>
   </div>
+
+
+
+
   <br><br>
   <div class="file_upload_sector">
     <p>הרצת בדיקה של סטטוס השרת</p>
