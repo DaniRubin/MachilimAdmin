@@ -1,5 +1,7 @@
 /node_modules
 /.idea
+/EncryptionDir/working/*
 Secret.png
 first.png
 second.png
+tutorial.webm

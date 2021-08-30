@@ -9,7 +9,7 @@ const fs = require('fs')
 const HOST_NAME = 'localhost'
 const GET_ROUTE = '/status_check'
 const POST_ROUTE = '/upload_file'
-const PORT = 5555
+const PORT = 7500
 
 const app = express()
 app.use(bodyParser.json());
@@ -18,7 +18,7 @@ app.use(fileUpload({
   createParentPath: true
 }));
 
-app.get('/', (req, res) => {
+app.get('/superadmin', (req, res) => {
   res.sendFile(path.resolve(`${__dirname}/client/index.html`))
 })
 
@@ -80,6 +80,9 @@ app.post(POST_ROUTE, async (req, res) => {
       fs.rename('./second.png', './EncryptionDir/working/secong.png', (err) => {
         if (err) return res.send("Could not move encrypted second.png")
       });
+      try { fs.unlinkSync('./EncryptionDir/working/SecretCrazyRoomCenter.zip') } catch { console.log("Cannot unlink center.zip") }
+      try { fs.unlinkSync('./EncryptionDir/working/SecretCrazyRoomNorth.zip') } catch { console.log("Cannot unlink north.zip") }
+      try { fs.unlinkSync('./EncryptionDir/working/SecretCrazyRoomSouth.zip') } catch { console.log("Cannot unlink south.zip") }
       console.log("Files crop Success!");
       console.log("Zipping...");
 

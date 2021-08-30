@@ -75,14 +75,15 @@
 
 <script>
   let current_file = null;
-
+  const PORT = 7500
+  const HOST = 'localhost'
   function sendServerStatusCheck() {
     var requestOptions = {
       method: 'GET',
       redirect: 'follow'
     };
 
-    fetch("http://localhost:5555/status_check", requestOptions)
+    fetch(`http://${HOST}:${PORT}/status_check`, requestOptions)
       .then(response => response.text())
       .then(result => {
         if (result == 'Status OK') {
@@ -113,7 +114,7 @@
         method: 'POST',
         body: formdata,
       };
-      fetch("http://localhost:5555/upload_file", requestOptions)
+      fetch(`http://${HOST}:${PORT}/upload_file`, requestOptions)
         .then(response => response.text())
         .then(result => {
           document.getElementById('text-feedback').style.display = "block";
