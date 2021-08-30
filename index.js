@@ -80,9 +80,9 @@ app.post(POST_ROUTE, async (req, res) => {
       fs.rename('./second.png', './EncryptionDir/working/secong.png', (err) => {
         if (err) return res.send("Could not move encrypted second.png")
       });
-      try { fs.unlinkSync('./EncryptionDir/working/SecretCrazyRoomCenter.zip') } catch { console.log("Cannot unlink center.zip") }
-      try { fs.unlinkSync('./EncryptionDir/working/SecretCrazyRoomNorth.zip') } catch { console.log("Cannot unlink north.zip") }
-      try { fs.unlinkSync('./EncryptionDir/working/SecretCrazyRoomSouth.zip') } catch { console.log("Cannot unlink south.zip") }
+      try { fs.unlinkSync('./EncryptionDir/working/SecretCrazyRoomCenter.zip') } catch (err) { console.log("Cannot unlink center.zip") }
+      try { fs.unlinkSync('./EncryptionDir/working/SecretCrazyRoomNorth.zip') } catch (err) { console.log("Cannot unlink north.zip") }
+      try { fs.unlinkSync('./EncryptionDir/working/SecretCrazyRoomSouth.zip') } catch (err) { console.log("Cannot unlink south.zip") }
       console.log("Files crop Success!");
       console.log("Zipping...");
 
