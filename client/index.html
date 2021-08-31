@@ -78,7 +78,13 @@
   const PORT = 7500
   const HOST = '52.39.117.139'
   // const HOST = 'localhost'
+  let counter_statusCheck = 0
   function sendServerStatusCheck() {
+    if (counter_statusCheck == 1) {
+      alert("יש לרפרש את העמוד כדי לבצע עוד בדיקת תקינות")
+      return
+    }
+    counter_statusCheck = 1
     var requestOptions = {
       method: 'GET',
       redirect: 'follow'

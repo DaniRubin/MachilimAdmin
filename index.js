@@ -25,10 +25,10 @@ app.get('/superadmin', (req, res) => {
 
 const connection_success = [`connection successful`, `Could not establish connection! NOT VALID`]
 const login_success = [`Received - b\'M@CH{"response": 101, "data": "gportal have been logged in successfully."}M@CH\'`, 'Could not login! NOT VALID']
-const dir_success = [`Received - b'M@CH{"response": 201, "data": {`, 'Could not get dir valid response! NOT VALID']
-const read_text_commend = [`Running tasks readtext\r`, 'Could not readtext command! NOT VALID']
-const get_file_commend = [`Running tasks getfile\r`, 'Could not getfile command! NOT VALID']
-const receiving_valid_command = [`receiving...\r`, 'Could not receive valid response! NOT VALID']
+const dir_success = [`Received - b'M@CH{"response": 201, `, 'Could not get dir valid response! NOT VALID']
+const read_text_commend = [`Running tasks readtext`, 'Could not readtext command! NOT VALID']
+const get_file_commend = [`Running tasks getfile`, 'Could not getfile command! NOT VALID']
+const receiving_valid_command = [`receiving...`, 'Could not receive valid response! NOT VALID']
 const search_quesrirs = [connection_success, login_success, dir_success, read_text_commend, get_file_commend, receiving_valid_command]
 
 app.get(GET_ROUTE, (req, res) => {
