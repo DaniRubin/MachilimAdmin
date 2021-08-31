@@ -33,23 +33,27 @@ const search_quesrirs = [connection_success, login_success, dir_success, read_te
 
 app.get(GET_ROUTE, (req, res) => {
   const { spawn } = require('child_process');
-
+  console.log("Got status check request!")
   try {
     console.log(`Asked for server status check!`);
     const pyProg = spawn('python3', ['./scripts/checkServerStatus.py']);
     pyProg.stdout.on('data', function (data) {
-      const response_lines = data.toString().split('\n')
       let response_server_status = ''
+      const response_lines = data.toString().split('\n')
       search_quesrirs.forEach(search_query => {
         if (!response_lines.includes(search_query[0])) {
           if (response_server_status == '')
             response_server_status = search_query[1]
         }
       });
-
       if (response_server_status == '') response_server_status = 'Status OK';
       console.log(`Server response is - '${response_server_status}'`);
-      res.send(response_server_status)
+      return res.send(response_server_status)
+    });
+    pyProg.stderr.on('data', (data) => {
+      console.log('Error accured');
+      response_server_status = data.toString().split(']')[1]
+      return res.send(response_server_status)
     });
   } catch (err) {
     console.log(`Error accured - ${err}`)

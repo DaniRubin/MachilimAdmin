@@ -3,8 +3,10 @@ import base64
 import re
 import random
 
-# HOST = '52.13.54.210'
 HOST = 'localhost'
+# HOST = '34.217.209.247'
+# HOST = '34.216.156.227'
+
 PORT = 5555
 BUFSIZE = 1024
 CHUNK = BUFSIZE
@@ -85,9 +87,9 @@ def conv(sock):
             file_data = file_data + cur_chunk
             # parse response
             file_data = parse(file_data)
-            f = open(FILE_TO_SAVE+file_name, 'wb')
-            f.write(file_data)
-            f.close()
+            # f = open(FILE_TO_SAVE+file_name, 'wb')
+            # f.write(file_data)
+            # f.close()
             print(f'File is written to {FILE_TO_SAVE+file_name}')
 
         elif req == 'logout':
