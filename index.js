@@ -23,9 +23,9 @@ app.get('/superadmin', (req, res) => {
 })
 
 
-const connection_success = [`connection successful\r`, `Could not establish connection! NOT VALID`]
-const login_success = [`Received - b\'M@CH{"response": 101, "data": "gportal have been logged in successfully."}M@CH\'\r`, 'Could not login! NOT VALID']
-const dir_success = [`Received - b'M@CH{"response": 201, "data": {"2254133.log": 2598, "340.pdf": 43578, "341.pdf": 43004, "355.pdf": 57727, "356.pdf": 45002, "42takziv2004.xlsx.001": 22528, "42takziv2004.xlsx.002": 22528, "42takziv2004.xlsx.003": 7030, "hoze.pdf": 46376, "ONLY_FOR_MACHSHILIM.txt": 54, "presentation.pptx": 991273, "SecretCrazyRoomCenter.zip": 129699, "SecretCrazyRoomNorth.zip": 129722, "SecretCrazyRoomSouth.zip": 129723, "TOPSECRET.txt": 8, "very_important.txt": 89}}M@CH'\r`, 'Could not get dir valid response! NOT VALID']
+const connection_success = [`connection successful`, `Could not establish connection! NOT VALID`]
+const login_success = [`Received - b\'M@CH{"response": 101, "data": "gportal have been logged in successfully."}M@CH\'`, 'Could not login! NOT VALID']
+const dir_success = [`Received - b'M@CH{"response": 201, "data": {`, 'Could not get dir valid response! NOT VALID']
 const read_text_commend = [`Running tasks readtext\r`, 'Could not readtext command! NOT VALID']
 const get_file_commend = [`Running tasks getfile\r`, 'Could not getfile command! NOT VALID']
 const receiving_valid_command = [`receiving...\r`, 'Could not receive valid response! NOT VALID']
